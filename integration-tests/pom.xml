@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.hartmann.neo4j</groupId>
+    <artifactId>integration-tests</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <neo4j-server.port>7676</neo4j-server.port>
+        <neo4j-server.version>2.1.7</neo4j-server.version>
+
+        <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
+        <neo4j-server-maven-plugin.version>1.0-SNAPSHOT</neo4j-server-maven-plugin.version>
+
+        <junit.version>4.12</junit.version>
+        <spring-web.version>4.1.4.RELEASE</spring-web.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring-web.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>run-integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <systemProperties>
+                                <neo4j-server.url>http://localhost:${neo4j-server.port}
+                                </neo4j-server.url>
+                            </systemProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>de.hartmann.neo4j</groupId>
+                <artifactId>neo4j-server-maven-plugin</artifactId>
+                <version>${neo4j-server-maven-plugin.version}</version>
+                <configuration>
+                    <port>${neo4j-server.port}</port>
+                    <version>${neo4j-server.version}</version>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-neo4j-server</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-neo4j-server</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
