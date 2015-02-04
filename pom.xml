@@ -7,7 +7,7 @@
     <artifactId>neo4j-server-maven-plugin</artifactId>
 
     <name>Neo4j Server Maven Plugin</name>
-    <description>Start and stop Neo4j community server</description>
+    <description>Start and stop any version of Neo4j community server</description>
 
     <url>https://github.com/harti2006/neo4j-server-maven-plugin</url>
 
