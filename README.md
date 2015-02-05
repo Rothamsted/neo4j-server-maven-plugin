@@ -55,3 +55,12 @@ For an example, run
 
     cd integration-tests
     mvn clean verify
+
+### Releases
+
+This project uses the [maven-release-plugin](http://maven.apache.org/maven-release/maven-release-plugin/) to
+create new release versions. This happens in two steps:
+
+    mvn clean release:prepare -Prelease
+
+    mvn release:perform -Prelease
