@@ -140,8 +140,8 @@
 
     <scm>
         <url>https://github.com/harti2006/neo4j-server-maven-plugin</url>
-        <connection>scm:git:git://github.com/harti2006/neo4j-server-maven-plugin.git</connection>
-        <developerConnection>scm:git:git://github.com/harti2006/neo4j-server-maven-plugin.git
+        <connection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git
         </developerConnection>
         <tag>HEAD</tag>
     </scm>
