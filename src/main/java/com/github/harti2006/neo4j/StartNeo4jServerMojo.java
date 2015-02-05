@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package de.hartmann.neo4j;
+package com.github.harti2006.neo4j;
 
 import static java.lang.String.format;
 import static java.nio.file.Files.createDirectories;

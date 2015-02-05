@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package de.hartmann.neo4j;
+package com.github.harti2006;
 
 import static java.net.URI.create;
 import static org.junit.Assert.assertEquals;

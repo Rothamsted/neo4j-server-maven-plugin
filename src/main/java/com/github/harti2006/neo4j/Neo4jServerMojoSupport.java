@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package de.hartmann.neo4j;
+package com.github.harti2006.neo4j;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

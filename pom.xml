@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.hartmann.neo4j</groupId>
+    <groupId>com.github.harti2006</groupId>
     <version>1.0-SNAPSHOT</version>
     <artifactId>neo4j-server-maven-plugin</artifactId>
 

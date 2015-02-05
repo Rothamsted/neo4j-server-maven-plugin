@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package de.hartmann.neo4j;
+package com.github.harti2006.neo4j;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.POST_INTEGRATION_TEST;

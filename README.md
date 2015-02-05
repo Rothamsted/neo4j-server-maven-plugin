@@ -28,7 +28,7 @@ Furthermore it provides an idiomatic way to configure the server using the plugi
 The start/stop goals bind by default to lifecycle phases pre- and post-integration-test:
 
     <plugin>
-        <groupId>de.hartmann</groupId>
+        <groupId>com.github.harti2006</groupId>
         <artifactId>neo4j-server-maven-plugin</artifactId>
         <version>1.0-SNAPSHOT</version>
         <configuration>
