@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.harti2006</groupId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <artifactId>neo4j-server-maven-plugin</artifactId>
 
     <name>Neo4j Server Maven Plugin</name>
@@ -142,7 +142,7 @@
         <connection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git</connection>
         <developerConnection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git
         </developerConnection>
-        <tag>0.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
