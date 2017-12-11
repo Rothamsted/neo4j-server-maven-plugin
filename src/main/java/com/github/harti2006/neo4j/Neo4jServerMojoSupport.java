@@ -37,8 +37,12 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
             defaultValue = "${project.build.directory}/neo4j-server")
     protected String directory;
 
-    @Parameter(required = true, property = "neo4j-server.port", defaultValue = "7575")
+    @Parameter(required = true, property = "neo4j-server.port", defaultValue = "7474")
     protected String port;
+
+    @Parameter(required = true, property = "neo4j-server.boltPort", defaultValue = "7687")
+    protected String boltPort;
+
 
     protected Path getServerLocation() {
         return Paths.get(directory, ARTIFACT_NAME + version);

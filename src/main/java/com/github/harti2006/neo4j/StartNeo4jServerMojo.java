@@ -84,11 +84,13 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
     private void configureNeo4jServer() throws MojoExecutionException {
         final Path serverLocation = getServerLocation();
         final Path serverPropertiesPath = serverLocation.resolve(
-                Paths.get("conf", "neo4j-server.properties"));
+                Paths.get("conf", "neo4j.conf"));
 
-        final Properties serverProperties = PropertyUtils.loadProperties(serverPropertiesPath.toFile());
-        serverProperties.setProperty("org.neo4j.server.webserver.port", port);
-        serverProperties.setProperty("org.neo4j.server.webserver.https.enabled", "false");
+        Properties serverProperties = PropertyUtils.loadProperties(serverPropertiesPath.toFile());
+
+        serverProperties.setProperty("dbms.connector.http.listen_address", "localhost:" + port);
+        serverProperties.setProperty("dbms.connector.bolt.listen_address", "localhost:" + boltPort);
+        serverProperties.setProperty("dbms.connector.https.enabled", "false");
 
         try {
             serverProperties.store(newBufferedWriter(serverPropertiesPath, TRUNCATE_EXISTING, WRITE),

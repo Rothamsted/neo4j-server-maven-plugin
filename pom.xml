@@ -124,24 +124,26 @@
                 </plugins>
             </build>
         </profile>
+        
     </profiles>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
+      <repository>
+         <id>ondex-releases</id>
+         <name>Internal Releases</name>
+         <url>http://ondex.rothamsted.ac.uk/nexus/content/repositories/releases</url>
+      </repository>
+      <snapshotRepository>
+         <id>ondex-snapshots</id>
+         <name>Internal Snapshots</name>
+         <url>http://ondex.rothamsted.ac.uk/nexus/content/repositories/snapshots</url>
+      </snapshotRepository>
     </distributionManagement>
-
+      
     <scm>
-        <url>https://github.com/harti2006/neo4j-server-maven-plugin</url>
+        <url>https://github.com/Rothamsted/neo4j-server-maven-plugin</url>
         <connection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git</connection>
-        <developerConnection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git
-        </developerConnection>
+        <developerConnection>scm:git:https://github.com/Rothamsted/neo4j-server-maven-plugin.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
