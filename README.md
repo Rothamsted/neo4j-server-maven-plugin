@@ -59,6 +59,33 @@ For an example, run
     cd integration-tests
     mvn clean verify
 
+The server might take a while before going on line, so your tests might get connection refused errors. This
+ant-based pause might help (must go after the neo4j plug-in declaration above):
+
+```
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-antrun-plugin</artifactId>
+	<version>1.8</version>
+	<executions>
+		<execution>
+			<id>wait</id>
+			<phase>pre-integration-test</phase>
+			<configuration>
+				<target>
+					<echo message = "Waiting for Neo4j to boot" />
+					<sleep seconds="3" />
+				</target>
+			</configuration>
+			<goals>
+				<goal>run</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+```
+
+
 ### Releases
 
 This project uses the [maven-release-plugin](http://maven.apache.org/maven-release/maven-release-plugin/) to
