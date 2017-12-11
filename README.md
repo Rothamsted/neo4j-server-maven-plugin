@@ -9,6 +9,9 @@ and runs it, as a user would do it, using `./neo4j start`
 
 Furthermore it provides an idiomatic way to configure the server using the plugin `<configuration>` section.
 
+**This is a fork** made in the the [kNetMiner project](http://knetminer.rothamsted.ac.uk/), to upgrade the 
+plug-in to the last Neo4J version and deploy on our [organisation repository](http://ondex.rothamsted.ac.uk/nexus/index.html).
+
 ## Building the project
 
     mvn clean install
