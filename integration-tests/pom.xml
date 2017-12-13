@@ -7,7 +7,7 @@
 
     <groupId>com.github.harti2006</groupId>
     <artifactId>integration-tests</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -16,10 +16,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <neo4j-server.port>7676</neo4j-server.port>
-        <neo4j-server.version>2.1.7</neo4j-server.version>
+        <neo4j-server.boltPort>8686</neo4j-server.boltPort>
+        <neo4j-server.password>testPass</neo4j-server.password>
+
+        <neo4j-server.version>3.3.1</neo4j-server.version>
 
         <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
-        <neo4j-server-maven-plugin.version>1.0-SNAPSHOT</neo4j-server-maven-plugin.version>
+        <neo4j-server-maven-plugin.version>${project.version}</neo4j-server-maven-plugin.version>
 
         <junit.version>4.12</junit.version>
         <spring-web.version>4.1.4.RELEASE</spring-web.version>
@@ -38,6 +41,12 @@
             <version>${spring-web.version}</version>
             <scope>test</scope>
         </dependency>
+				<dependency>
+ 						<groupId>org.neo4j.driver</groupId>
+						<artifactId>neo4j-java-driver</artifactId>
+						<version>1.4.5</version>
+						<scope>test</scope>
+				</dependency>            			      
     </dependencies>
 
     <build>
@@ -45,19 +54,25 @@
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <systemProperties>
+											<neo4j-server.port>${neo4j-server.port}</neo4j-server.port>
+											<neo4j-server.boltPort>${neo4j-server.boltPort}</neo4j-server.boltPort>
+											<neo4j-server.password>${neo4j-server.password}</neo4j-server.password>
+                    </systemProperties>
+                </configuration>
                 <executions>
                     <execution>
                         <id>run-integration-tests</id>
                         <goals>
                             <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify-integration-tests</id>
+                        <goals>
                             <goal>verify</goal>
                         </goals>
-                        <configuration>
-                            <systemProperties>
-                                <neo4j-server.url>http://localhost:${neo4j-server.port}
-                                </neo4j-server.url>
-                            </systemProperties>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -68,7 +83,9 @@
                 <version>${neo4j-server-maven-plugin.version}</version>
                 <configuration>
                     <port>${neo4j-server.port}</port>
-                    <version>${neo4j-server.version}</version>
+                    <boltPort>${neo4j-server.boltPort}</boltPort>
+                    <password>${neo4j-server.password}</password>
+                    <version>${neo4j-server.version}</version>                    
                 </configuration>
                 <executions>
                     <execution>
