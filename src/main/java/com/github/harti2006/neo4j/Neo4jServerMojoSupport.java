@@ -62,9 +62,10 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
     
     /**
      * Whether the neo4j DB must be cleaned or not before starting a new server with the start goal.
-     * You'll want to leave this set to the true default value in most cases.
+     * Typically, you want this to be false when you manually restart the test server, by invoking 
+     * this plug-in via command line, and you want it to be true when you configure a POM. 
      */
-    @Parameter(required = true, property = "neo4j-server.deleteDb", defaultValue = "true")
+    @Parameter(required = true, property = "neo4j-server.deleteDb", defaultValue = "false")
     	protected boolean deleteDb;
     	
     protected Path getServerLocation() {

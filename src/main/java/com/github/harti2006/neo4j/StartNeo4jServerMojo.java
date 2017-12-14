@@ -165,12 +165,14 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
     private void checkServerReady () throws MojoExecutionException, InterruptedException
     {
     		String pwd = deleteDb ? "neo4j" : password;
+    		int maxAttempts = 3;
+    		Thread.sleep ( 1500 ); // It takes some time anyway
     		
-      for ( int attempts = 3; attempts > 0; attempts-- )
+      for ( int attempts = 1; attempts <= maxAttempts ; attempts++ )
       {
       		try 
       		{
-      			getLog().info ( "Trying to connect DB with pass: " + pwd ); 
+      			getLog().debug ( "Trying to connect Neo4j, attempt " + attempts ); 
 	        Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
 	      		driver.close ();
 	      		return;

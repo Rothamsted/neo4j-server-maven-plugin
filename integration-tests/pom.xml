@@ -85,7 +85,8 @@
                     <port>${neo4j-server.port}</port>
                     <boltPort>${neo4j-server.boltPort}</boltPort>
                     <password>${neo4j-server.password}</password>
-                    <version>${neo4j-server.version}</version>                    
+                    <version>${neo4j-server.version}</version>
+                    <deleteDb>true</deleteDb>                    
                 </configuration>
                 <executions>
                     <execution>
