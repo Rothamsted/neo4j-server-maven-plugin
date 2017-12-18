@@ -26,11 +26,12 @@ public class Neo4jServerIT {
     @Test
     public void testNeo4jServerIsRunning() throws Exception 
     {
-    		// We test the bolt server here, the web interface is not crucial for applications. 
+    		// We test the bolt server here, the web interface is not crucial for Maven builds. 
     		String boltPort = System.getProperty ( "neo4j-server.boltPort" );
     		String pwd = System.getProperty ( "neo4j-server.password" );
-    		
-      Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
-      driver.close ();
+    		try (
+  				Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
+    		) {
+    		}
     }
 }

@@ -35,12 +35,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring-web.version}</version>
-            <scope>test</scope>
-        </dependency>
 				<dependency>
  						<groupId>org.neo4j.driver</groupId>
 						<artifactId>neo4j-java-driver</artifactId>
@@ -55,11 +49,12 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
-                    <systemProperties>
-											<neo4j-server.port>${neo4j-server.port}</neo4j-server.port>
-											<neo4j-server.boltPort>${neo4j-server.boltPort}</neo4j-server.boltPort>
-											<neo4j-server.password>${neo4j-server.password}</neo4j-server.password>
-                    </systemProperties>
+									<trimStackTrace>false</trimStackTrace>
+									<systemProperties>
+										<neo4j-server.port>${neo4j-server.port}</neo4j-server.port>
+										<neo4j-server.boltPort>${neo4j-server.boltPort}</neo4j-server.boltPort>
+										<neo4j-server.password>${neo4j-server.password}</neo4j-server.password>
+									</systemProperties>
                 </configuration>
                 <executions>
                     <execution>
