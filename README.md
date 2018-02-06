@@ -61,7 +61,7 @@ For an example, run
 
 ### Parameters
 
-Have a look at the `[com.github.harti2006.neo4j.Neo4jServerMojoSupport](src/main/java/com/github/harti2006/neo4j/Neo4jServerMojoSupport.java)` class for details.
+Have a look at the [`Neo4jServerMojoSupport`](src/main/java/com/github/harti2006/neo4j/Neo4jServerMojoSupport.java)` class for details.
  
 ### Releases
 
