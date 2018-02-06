@@ -150,7 +150,7 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
     private void checkServerReady () throws MojoExecutionException, InterruptedException
     {
     		String pwd = deleteDb ? "neo4j" : password;
-    		int maxAttempts = 5;
+    		int maxAttempts = 10;
     		Thread.sleep ( 1500 ); // It takes some time anyway
     		
       for ( int attempts = 1; attempts <= maxAttempts ; attempts++ )

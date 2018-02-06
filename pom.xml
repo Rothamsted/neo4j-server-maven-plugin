@@ -27,6 +27,13 @@
 
         <commons-io.version>2.4</commons-io.version>
         <jarchivelib.version>0.7.0</jarchivelib.version>
+
+				<distro.id>ossrh</distro.id>
+				<distro.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distro.url>
+
+				<distro.snap.id>ossrh-snapshots</distro.snap.id>
+				<distro.snap.url>https://oss.sonatype.org/content/repositories/snapshots</distro.snap.url>
+        
     </properties>
 
     <dependencies>
@@ -141,16 +148,18 @@
     </profiles>
 
     <distributionManagement>
-      <repository>
-         <id>ondex-releases</id>
-         <name>Internal Releases</name>
-         <url>http://ondex.rothamsted.ac.uk/nexus/content/repositories/releases</url>
-      </repository>
+
+			<!-- This way we can play with settings and profile and select alternative distro repos. -->
+			
       <snapshotRepository>
-         <id>ondex-snapshots</id>
-         <name>Internal Snapshots</name>
-         <url>http://ondex.rothamsted.ac.uk/nexus/content/repositories/snapshots</url>
+          <id>${distro.snap.id}</id>
+          <url>${distro.snap.url}</url>
       </snapshotRepository>
+      <repository>
+          <id>${distro.id}</id>
+          <url>${distro.url}</url>
+      </repository>
+      
     </distributionManagement>
       
     <scm>
