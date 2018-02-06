@@ -35,15 +35,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.codehaus.plexus.util.PropertyUtils;
+import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.GraphDatabase;
+import org.neo4j.driver.v1.Session;
+import org.neo4j.driver.v1.exceptions.ServiceUnavailableException;
 
 @Mojo(name = "start", defaultPhase = PRE_INTEGRATION_TEST)
 public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
 
-    @SuppressWarnings("unchecked")
     public void execute() throws MojoExecutionException {
         installNeo4jServer();
         configureNeo4jServer();
@@ -84,11 +89,13 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
     private void configureNeo4jServer() throws MojoExecutionException {
         final Path serverLocation = getServerLocation();
         final Path serverPropertiesPath = serverLocation.resolve(
-                Paths.get("conf", "neo4j-server.properties"));
+                Paths.get("conf", "neo4j.conf"));
 
-        final Properties serverProperties = PropertyUtils.loadProperties(serverPropertiesPath.toFile());
-        serverProperties.setProperty("org.neo4j.server.webserver.port", port);
-        serverProperties.setProperty("org.neo4j.server.webserver.https.enabled", "false");
+        Properties serverProperties = PropertyUtils.loadProperties(serverPropertiesPath.toFile());
+
+        serverProperties.setProperty("dbms.connector.http.listen_address", "localhost:" + port);
+        serverProperties.setProperty("dbms.connector.bolt.listen_address", "localhost:" + boltPort);
+        serverProperties.setProperty("dbms.connector.https.enabled", "false");
 
         try {
             serverProperties.store(newBufferedWriter(serverPropertiesPath, TRUNCATE_EXISTING, WRITE),
@@ -102,6 +109,15 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
         final Log log = getLog();
         try {
             final Path serverLocation = getServerLocation();
+            
+            // Delete existing DB if required
+            if ( deleteDb )
+            {
+            		Path dataDir = serverLocation.resolve ( "data" );
+            		log.info ( "Deleting Database directory: '" + dataDir.toAbsolutePath ().toString () + "'" );
+	            FileUtils.deleteQuietly ( dataDir.toFile () );
+            }
+            
             final String[] neo4jCommand = new String[]{
                     serverLocation.resolve(Paths.get("bin", "neo4j")).toString(), "start"};
             final File workingDir = serverLocation.toFile();
@@ -120,8 +136,52 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
             } else {
                 throw new MojoExecutionException("Neo4j server did not start up properly");
             }
+            
+            // Now we need to wait it replies
+            checkServerReady ();
+            
+            // Went up! If it's a new DB, let's change the password.
+            setNewPassword ();
         } catch (IOException | InterruptedException e) {
-            throw new MojoExecutionException("Could not start neo4j server", e);
+            throw new MojoExecutionException( "Could not start neo4j server", e);
         }
+    }
+    
+    private void checkServerReady () throws MojoExecutionException, InterruptedException
+    {
+    		String pwd = deleteDb ? "neo4j" : password;
+    		int maxAttempts = 10;
+    		Thread.sleep ( 1500 ); // It takes some time anyway
+    		
+      for ( int attempts = 1; attempts <= maxAttempts ; attempts++ )
+      {
+  				getLog().debug ( "Trying to connect Neo4j, attempt " + attempts ); 
+      		
+  				try ( 
+      			Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) ); 
+      		) 
+  				{ 
+  					return;
+      		} 
+  				catch ( ServiceUnavailableException ex ) {
+        		Thread.sleep ( 1000 );
+      		}
+      }
+      throw new MojoExecutionException ( 
+      		"Server doesn't result started after waiting for its boot" 
+      	);
+    }
+    
+    private void setNewPassword ()
+    {
+      if ( !deleteDb ) return;
+      
+      try (
+  	      Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", "neo4j" ) );
+      		Session session = driver.session ();
+      	)
+      {
+	      session.run ( "CALL dbms.changePassword( '" + password + "' )" );
+      }
     }
 }

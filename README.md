@@ -9,6 +9,9 @@ and runs it, as a user would do it, using `./neo4j start`
 
 Furthermore it provides an idiomatic way to configure the server using the plugin `<configuration>` section.
 
+**This is a fork** made in the the [kNetMiner project](http://knetminer.rothamsted.ac.uk/), to upgrade the 
+plug-in to the last Neo4J version and deploy on our [organisation repository](http://ondex.rothamsted.ac.uk/nexus/index.html).
+
 ## Building the project
 
     mvn clean install
@@ -56,6 +59,10 @@ For an example, run
     cd integration-tests
     mvn clean verify
 
+### Parameters
+
+Have a look at the `[com.github.harti2006.neo4j.Neo4jServerMojoSupport](TODO)` class for details.
+ 
 ### Releases
 
 This project uses the [maven-release-plugin](http://maven.apache.org/maven-release/maven-release-plugin/) to
