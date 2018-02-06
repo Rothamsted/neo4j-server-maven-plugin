@@ -9,6 +9,7 @@ and runs it, as a user would do it, using `./neo4j start`
 
 Furthermore it provides an idiomatic way to configure the server using the plugin `<configuration>` section.
 
+
 ## Building the project
 
     mvn clean install
@@ -56,6 +57,10 @@ For an example, run
     cd integration-tests
     mvn clean verify
 
+### Parameters
+
+Have a look at the [`Neo4jServerMojoSupport`](src/main/java/com/github/harti2006/neo4j/Neo4jServerMojoSupport.java) class for details.
+ 
 ### Releases
 
 This project uses the [maven-release-plugin](http://maven.apache.org/maven-release/maven-release-plugin/) to

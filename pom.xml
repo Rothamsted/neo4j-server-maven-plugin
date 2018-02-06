@@ -27,6 +27,13 @@
 
         <commons-io.version>2.4</commons-io.version>
         <jarchivelib.version>0.7.0</jarchivelib.version>
+
+				<distro.id>ossrh</distro.id>
+				<distro.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distro.url>
+
+				<distro.snap.id>ossrh-snapshots</distro.snap.id>
+				<distro.snap.url>https://oss.sonatype.org/content/repositories/snapshots</distro.snap.url>
+        
     </properties>
 
     <dependencies>
@@ -52,6 +59,19 @@
             <artifactId>jarchivelib</artifactId>
             <version>${jarchivelib.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.1.4.RELEASE</version>
+        </dependency>
+
+				<dependency>
+ 						<groupId>org.neo4j.driver</groupId>
+						<artifactId>neo4j-java-driver</artifactId>
+						<version>1.4.5</version>
+				</dependency>            			      
+
     </dependencies>
 
     <build>
@@ -124,24 +144,28 @@
                 </plugins>
             </build>
         </profile>
+        
     </profiles>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
+			<!-- This way we can play with settings and profile and select alternative distro repos. -->
+			
+      <snapshotRepository>
+          <id>${distro.snap.id}</id>
+          <url>${distro.snap.url}</url>
+      </snapshotRepository>
+      <repository>
+          <id>${distro.id}</id>
+          <url>${distro.url}</url>
+      </repository>
+      
+    </distributionManagement>
+      
     <scm>
-        <url>https://github.com/harti2006/neo4j-server-maven-plugin</url>
+        <url>https://github.com/Rothamsted/neo4j-server-maven-plugin</url>
         <connection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git</connection>
-        <developerConnection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git
-        </developerConnection>
+        <developerConnection>scm:git:https://github.com/Rothamsted/neo4j-server-maven-plugin.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
