@@ -149,6 +149,9 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
     
     private void checkServerReady () throws MojoExecutionException, InterruptedException
     {
+    		// If the deleteDb parameter is true, at this point we have created a new server, which have the default
+    		// password, and we're about to change this.
+    		//
     		String pwd = deleteDb ? "neo4j" : password;
     		int maxAttempts = 10;
     		Thread.sleep ( 1500 ); // It takes some time anyway
