@@ -34,7 +34,7 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
     protected String version;
 
     @Parameter(required = true, property = "neo4j-server.directory",
-            defaultValue = "${project.build.directory}/neo4j-server")
+        defaultValue = "${project.build.directory}/neo4j-server")
     protected String directory;
 
     /**
@@ -43,31 +43,29 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
     @Parameter(required = true, property = "neo4j-server.port", defaultValue = "7474")
     protected String port;
 
-    	/**
-    	 * The BOLT protocol port. This is what the programmatic clients use to access Neo4J. Default is 
-    	 * the same as Neo4J default.
-    	 * 
-    	 */
+    /**
+     * The BOLT protocol port. This is what the programmatic clients use to access Neo4J. Default is
+     * the same as Neo4J default.
+     */
     @Parameter(required = true, property = "neo4j-server.boltPort", defaultValue = "7687")
     protected String boltPort;
 
     /**
-     * The new Neo4J password. Neo4j creates a default neo4j/neo4j account of each new database, which is 
+     * The new Neo4J password. Neo4j creates a default neo4j/neo4j account of each new database, which is
      * set as expired and it can be used only to setup a new password. So the start procedure does that
      * with this parameter.
      */
     @Parameter(required = true, property = "neo4j-server.password", defaultValue = "test")
-    	protected String password;
-    	
-    
+    protected String password;
+
     /**
      * Whether the neo4j DB must be cleaned or not before starting a new server with the start goal.
-     * Typically, you want this to be false when you manually restart the test server, by invoking 
-     * this plug-in via command line, and you want it to be true when you configure a POM. 
+     * Typically, you want this to be false when you manually restart the test server, by invoking
+     * this plug-in via command line, and you want it to be true when you configure a POM.
      */
     @Parameter(required = true, property = "neo4j-server.deleteDb", defaultValue = "false")
-    	protected boolean deleteDb;
-    	
+    protected boolean deleteDb;
+
     protected Path getServerLocation() {
         return Paths.get(directory, ARTIFACT_NAME + version);
     }

@@ -24,9 +24,9 @@ import org.neo4j.driver.v1.GraphDatabase;
 public class Neo4jServerIT {
 
     @Test
-    public void testNeo4jServerIsRunning() throws Exception 
+    public void testNeo4jServerIsRunning() throws Exception
     {
-    		// We test the bolt server here, the web interface is not crucial for Maven builds. 
+    		// We test the bolt server here, the web interface is not crucial for Maven builds.
     		String boltPort = System.getProperty ( "neo4j-server.boltPort" );
     		String pwd = System.getProperty ( "neo4j-server.password" );
     		try (

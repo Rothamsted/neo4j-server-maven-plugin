@@ -35,12 +35,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-				<dependency>
- 						<groupId>org.neo4j.driver</groupId>
-						<artifactId>neo4j-java-driver</artifactId>
-						<version>1.4.5</version>
-						<scope>test</scope>
-				</dependency>            			      
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+            <version>1.4.5</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -49,12 +49,12 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
-									<trimStackTrace>false</trimStackTrace>
-									<systemProperties>
-										<neo4j-server.port>${neo4j-server.port}</neo4j-server.port>
-										<neo4j-server.boltPort>${neo4j-server.boltPort}</neo4j-server.boltPort>
-										<neo4j-server.password>${neo4j-server.password}</neo4j-server.password>
-									</systemProperties>
+                    <trimStackTrace>false</trimStackTrace>
+                    <systemProperties>
+                        <neo4j-server.port>${neo4j-server.port}</neo4j-server.port>
+                        <neo4j-server.boltPort>${neo4j-server.boltPort}</neo4j-server.boltPort>
+                        <neo4j-server.password>${neo4j-server.password}</neo4j-server.password>
+                    </systemProperties>
                 </configuration>
                 <executions>
                     <execution>
@@ -81,7 +81,7 @@
                     <boltPort>${neo4j-server.boltPort}</boltPort>
                     <password>${neo4j-server.password}</password>
                     <version>${neo4j-server.version}</version>
-                    <deleteDb>true</deleteDb>                    
+                    <deleteDb>true</deleteDb>
                 </configuration>
                 <executions>
                     <execution>

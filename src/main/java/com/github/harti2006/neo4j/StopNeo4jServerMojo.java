@@ -38,13 +38,13 @@ public class StopNeo4jServerMojo extends Neo4jServerMojoSupport {
         final Log log = getLog();
         final Path serverLocation = getServerLocation();
         final String[] stopServerCmd = {
-                serverLocation.resolve(Paths.get("bin", "neo4j")).toString(), "stop"};
+            serverLocation.resolve(Paths.get("bin", "neo4j")).toString(), "stop"};
         final File workingDir = serverLocation.toFile();
 
         try {
             final Process neo4jServerStopProcess = Runtime.getRuntime().exec(stopServerCmd, null, workingDir);
             try (final BufferedReader br = new BufferedReader(
-                    new InputStreamReader(neo4jServerStopProcess.getInputStream()))) {
+                new InputStreamReader(neo4jServerStopProcess.getInputStream()))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     log.info("NEO4J-SERVER > " + line);

@@ -61,6 +61,12 @@ For an example, run
 
 Have a look at the [`Neo4jServerMojoSupport`](src/main/java/com/github/harti2006/neo4j/Neo4jServerMojoSupport.java) class for details.
  
+### Code Formatting
+
+File formatting is verified by [EditorConfig](http://editorconfig.org/) 
+during `mvn verify` step. Most errors can be fixed with
+`mvn editorconfig:format` task.
+ 
 ### Releases
 
 This project uses the [maven-release-plugin](http://maven.apache.org/maven-release/maven-release-plugin/) to
