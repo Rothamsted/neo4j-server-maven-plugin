@@ -15,27 +15,23 @@
 
 package com.github.harti2006;
 
-import static java.net.URI.create;
-import static org.junit.Assert.assertEquals;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-
 import org.junit.Test;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.GraphDatabase;
+
 
 public class Neo4jServerIT {
 
     @Test
-    public void testNeo4jServerIsRunning() throws Exception {
-        final RestTemplate restTemplate = new RestTemplate();
-        final RequestEntity<Void> request = RequestEntity.get(create(System.getProperty("neo4j-server.url")))
-                .accept(APPLICATION_JSON)
-                .build();
-        final ResponseEntity<String> responseEntity = restTemplate.exchange(request, String.class);
-
-        assertEquals(OK, responseEntity.getStatusCode());
-        System.out.println(responseEntity);
+    public void testNeo4jServerIsRunning() throws Exception 
+    {
+    		// We test the bolt server here, the web interface is not crucial for Maven builds. 
+    		String boltPort = System.getProperty ( "neo4j-server.boltPort" );
+    		String pwd = System.getProperty ( "neo4j-server.password" );
+    		try (
+  				Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
+    		) {
+    		}
     }
 }
