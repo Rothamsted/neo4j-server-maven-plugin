@@ -69,9 +69,7 @@ during `mvn verify` step. Most errors can be fixed with
  
 ### Releases
 
-This project uses the [maven-release-plugin](http://maven.apache.org/maven-release/maven-release-plugin/) to
-create new release versions. This happens in two steps:
+The release process is copied frome this [blog post](https://dracoblue.net/dev/uploading-snapshots-and-releases-to-maven-central-with-travis/):
 
-    mvn clean release:prepare -Prelease
-
-    mvn release:perform -Prelease
+* Snapshot releases to Maven Central are performed automatically by Travis CI on every push to `master`.
+* Final releases to Maven Central are performed automatically by Travis CI after creating and pushing a git tag.
