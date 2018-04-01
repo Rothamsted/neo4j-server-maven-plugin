@@ -33,7 +33,7 @@
 
         <distro.id>ossrh</distro.id>
         <distro.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distro.url>
-        <distro.snap.id>ossrh-snapshots</distro.snap.id>
+        <distro.snap.id>ossrh</distro.snap.id>
         <distro.snap.url>https://oss.sonatype.org/content/repositories/snapshots</distro.snap.url>
     </properties>
 
