@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.harti2006</groupId>
-    <version>0.2-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <artifactId>neo4j-server-maven-plugin</artifactId>
 
     <name>Neo4j Server Maven Plugin</name>
@@ -20,20 +20,20 @@
 
         <maven-plugin-api.version>3.2.5</maven-plugin-api.version>
         <maven-plugin-annotations.version>3.4</maven-plugin-annotations.version>
-        <maven-source-plugin.version>2.4</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>2.10.1</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>2.5.1</maven-release-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
         <commons-io.version>2.4</commons-io.version>
         <jarchivelib.version>0.7.0</jarchivelib.version>
 
-				<distro.id>ossrh</distro.id>
-				<distro.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distro.url>
-
-				<distro.snap.id>ossrh-snapshots</distro.snap.id>
-				<distro.snap.url>https://oss.sonatype.org/content/repositories/snapshots</distro.snap.url>
-        
+        <distro.id>ossrh</distro.id>
+        <distro.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distro.url>
+        <distro.snap.id>ossrh</distro.snap.id>
+        <distro.snap.url>https://oss.sonatype.org/content/repositories/snapshots</distro.snap.url>
     </properties>
 
     <dependencies>
@@ -66,25 +66,35 @@
             <version>4.1.4.RELEASE</version>
         </dependency>
 
-				<dependency>
- 						<groupId>org.neo4j.driver</groupId>
-						<artifactId>neo4j-java-driver</artifactId>
-						<version>1.4.5</version>
-				</dependency>            			      
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+            <version>1.4.5</version>
+        </dependency>
 
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
+                <groupId>org.ec4j.maven</groupId>
+                <artifactId>editorconfig-maven-plugin</artifactId>
+                <version>0.0.5</version>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>check</id>
+                        <phase>verify</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -99,8 +109,25 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
 
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -129,39 +156,34 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <version>${maven-release-plugin.version}</version>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
                         <configuration>
-                            <autoVersionSubmodules>true</autoVersionSubmodules>
-                            <useReleaseProfile>true</useReleaseProfile>
-                            <releaseProfiles>release</releaseProfiles>
-                            <goals>deploy</goals>
-                            <pushChanges>true</pushChanges>
-                            <tagNameFormat>@{project.version}</tagNameFormat>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
-        
+
     </profiles>
 
     <distributionManagement>
-
-			<!-- This way we can play with settings and profile and select alternative distro repos. -->
-			
-      <snapshotRepository>
-          <id>${distro.snap.id}</id>
-          <url>${distro.snap.url}</url>
-      </snapshotRepository>
-      <repository>
-          <id>${distro.id}</id>
-          <url>${distro.url}</url>
-      </repository>
-      
+        <!-- This way we can play with settings and profiles and select alternative distro repos. -->
+        <snapshotRepository>
+            <id>${distro.snap.id}</id>
+            <url>${distro.snap.url}</url>
+        </snapshotRepository>
+        <repository>
+            <id>${distro.id}</id>
+            <url>${distro.url}</url>
+        </repository>
     </distributionManagement>
-      
+
     <scm>
         <url>https://github.com/Rothamsted/neo4j-server-maven-plugin</url>
         <connection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git</connection>

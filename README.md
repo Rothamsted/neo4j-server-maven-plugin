@@ -63,11 +63,15 @@ For an example, run
 
 Have a look at the [`Neo4jServerMojoSupport`](src/main/java/com/github/harti2006/neo4j/Neo4jServerMojoSupport.java) class for details.
  
+### Code Formatting
+
+File formatting is verified by [EditorConfig](http://editorconfig.org/) 
+during `mvn verify` step. Most errors can be fixed with
+`mvn editorconfig:format` task.
+ 
 ### Releases
 
-This project uses the [maven-release-plugin](http://maven.apache.org/maven-release/maven-release-plugin/) to
-create new release versions. This happens in two steps:
+The release process is copied frome this [blog post](https://dracoblue.net/dev/uploading-snapshots-and-releases-to-maven-central-with-travis/):
 
-    mvn clean release:prepare -Prelease
-
-    mvn release:perform -Prelease
+* Snapshot releases to Maven Central are performed automatically by Travis CI on every push to `master`.
+* Final releases to Maven Central are performed automatically by Travis CI after creating and pushing a git tag.
