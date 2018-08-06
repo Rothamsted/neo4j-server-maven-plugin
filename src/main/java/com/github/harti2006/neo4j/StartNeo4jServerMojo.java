@@ -145,16 +145,18 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
         }
     }
 
+    /**
+     * @see Neo4jServerMojoSupport#serverReadyAttempts.
+     */
     private void checkServerReady() throws MojoExecutionException, InterruptedException {
         // If the deleteDb parameter is true, at this point we have created a new server, which have the
         // default
         // password, and we're about to change this.
         //
         String pwd = deleteDb ? "neo4j" : password;
-        int maxAttempts = 10;
         Thread.sleep(1500); // It takes some time anyway
 
-        for (int attempts = 1; attempts <= maxAttempts; attempts++) {
+        for (int attempts = 1; attempts <= serverReadyAttempts; attempts++) {
             getLog().debug("Trying to connect Neo4j, attempt " + attempts);
 
             try (Driver driver = GraphDatabase.driver("bolt://127.0.0.1:" + boltPort,
@@ -164,7 +166,10 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
                 Thread.sleep(1000);
             }
         }
-        throw new MojoExecutionException("Server doesn't result started after waiting for its boot");
+        throw new MojoExecutionException(String.format (
+        		"Server doesn't result started after waiting %ss for its boot",
+        		1.5 + serverReadyAttempts
+        ));
     }
 
     private void setNewPassword() {

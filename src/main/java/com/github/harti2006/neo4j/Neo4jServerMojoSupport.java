@@ -66,6 +66,17 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
     @Parameter(required = true, property = "neo4j-server.deleteDb", defaultValue = "false")
     protected boolean deleteDb;
 
+    /**
+     * Makes this number of attempts to wait for server ready conditions when the Neo4j server is started
+     * in {@link StartNeo4jServerMojo}. After the start command, we check the server by connecting it via
+     * BOLT. If that doesn't work, we start making a connection attempt every second, until we connect it
+     * successfully or we reach a number of attempts equal to this parameter. The time spent this way can be
+     * configured and adapted to your particular situation, e.g., in some busy servers Neo4j can take over
+     * 1 min to start.
+     */
+    @Parameter(required = true, property = "neo4j-server.serverReadyAttempts", defaultValue = "10")
+    protected int serverReadyAttempts = 10;
+
     protected Path getServerLocation() {
         return Paths.get(directory, ARTIFACT_NAME + version);
     }
