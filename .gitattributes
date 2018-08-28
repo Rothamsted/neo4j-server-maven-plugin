@@ -1,0 +1,5 @@
+.travis merge=ours
+.travis.yml merge=ours
+pom.xml merge=ours
+README.md merge=ours
+settings.xml merge=ours
