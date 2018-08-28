@@ -82,7 +82,7 @@
                     <password>${neo4j-server.password}</password>
                     <version>${neo4j-server.version}</version>
                     <deleteDb>true</deleteDb>
-                    <!--  serverReadyAttempts>10</serverReadyAttempts -->
+                    <serverReadyAttempts>5</serverReadyAttempts>
                 </configuration>
                 <executions>
                     <execution>

@@ -49,6 +49,9 @@ import org.neo4j.driver.v1.exceptions.ServiceUnavailableException;
 @Mojo(name = "start", defaultPhase = PRE_INTEGRATION_TEST)
 public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
 
+    private static final int INITIAL_WAIT_MILLIS = 1500;
+    private static final int WAIT_MILLIS = 1000;
+
     public void execute() throws MojoExecutionException {
         installNeo4jServer();
         configureNeo4jServer();
@@ -146,7 +149,7 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
     }
 
     /**
-     * @see Neo4jServerMojoSupport#serverReadyAttempts.
+     * @see Neo4jServerMojoSupport#serverReadyAttempts
      */
     private void checkServerReady() throws MojoExecutionException, InterruptedException {
         // If the deleteDb parameter is true, at this point we have created a new server, which have the
@@ -154,22 +157,21 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
         // password, and we're about to change this.
         //
         String pwd = deleteDb ? "neo4j" : password;
-        Thread.sleep(1500); // It takes some time anyway
+        Thread.sleep(INITIAL_WAIT_MILLIS); // It takes some time anyway
 
         for (int attempts = 1; attempts <= serverReadyAttempts; attempts++) {
             getLog().debug("Trying to connect Neo4j, attempt " + attempts);
 
-            try (Driver driver = GraphDatabase.driver("bolt://127.0.0.1:" + boltPort,
-                                                      AuthTokens.basic("neo4j", pwd));) {
+            try (Driver ignored = GraphDatabase.driver("bolt://127.0.0.1:" + boltPort,
+                                                       AuthTokens.basic("neo4j", pwd))) {
                 return;
-            } catch (ServiceUnavailableException ex) {
-                Thread.sleep(1000);
+            } catch (ServiceUnavailableException ignored) {
+                Thread.sleep(WAIT_MILLIS);
             }
         }
-        throw new MojoExecutionException(String.format (
-        		"Server doesn't result started after waiting %ss for its boot",
-        		1.5 + serverReadyAttempts
-        ));
+        throw new MojoExecutionException(
+            format("Server doesn't result started after waiting %sms for its boot",
+                   INITIAL_WAIT_MILLIS + serverReadyAttempts * WAIT_MILLIS));
     }
 
     private void setNewPassword() {
@@ -179,7 +181,7 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
 
         try (Driver driver = GraphDatabase.driver("bolt://127.0.0.1:" + boltPort,
                                                   AuthTokens.basic("neo4j", "neo4j"));
-             Session session = driver.session();) {
+             Session session = driver.session()) {
             session.run("CALL dbms.changePassword( '" + password + "' )");
         }
     }
