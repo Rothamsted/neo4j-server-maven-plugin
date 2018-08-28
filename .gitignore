@@ -108,3 +108,5 @@ crashlytics.properties
 crashlytics-build.properties
 
 
+# Comes from the other branch, we don't want it here.
+.travis
