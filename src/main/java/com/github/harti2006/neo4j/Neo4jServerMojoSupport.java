@@ -15,17 +15,21 @@
 
 package com.github.harti2006.neo4j;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.springframework.core.io.ClassPathResource;
 
 public abstract class Neo4jServerMojoSupport extends AbstractMojo {
 
     protected static final String ARTIFACT_NAME = "neo4j-community-";
-
     protected static final String BASE_URL = "http://dist.neo4j.org/" + ARTIFACT_NAME;
+
+    protected static final Properties BUILD_PROPS = new Properties ();
 
     @Parameter(required = true, property = "neo4j-server.downloadPrefix", defaultValue = "-unix.tar.gz")
     protected String urlSuffix;
@@ -79,5 +83,19 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
 
     protected Path getServerLocation() {
         return Paths.get(directory, ARTIFACT_NAME + version);
+    }
+
+    static
+    {
+  		try
+			{
+				ClassPathResource buildProp = new ClassPathResource ( "build.properties" );
+				BUILD_PROPS.load ( buildProp.getInputStream () );
+			}
+			catch ( IOException ex ) {
+				throw new RuntimeException ( String.format (
+					"Internal error, couldn't load internal property file build.properties, details: %s", ex.getMessage ()
+				));
+			}
     }
 }

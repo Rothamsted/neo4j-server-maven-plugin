@@ -72,9 +72,27 @@
             <version>1.4.5</version>
         </dependency>
 
+				<!-- Allows for Mojo composition (http://timmoore.github.io/mojo-executor/) -->
+        <dependency>
+            <groupId>org.twdata.maven</groupId>
+            <artifactId>mojo-executor</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <resources>
+		    		<!--
+		    			At the moment, it contains build.properties, used to forward some POM properties to
+		    			Java files
+		    		-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -99,6 +117,17 @@
                     </execution>
                 </executions>
             </plugin>
+<!-- 		        <plugin> -->
+<!-- 		            <groupId>org.apache.maven.plugins</groupId> -->
+<!-- 		            <artifactId>maven-plugin-plugin</artifactId> -->
+<!-- 		            <version>3.2</version> -->
+<!-- 		            <executions> -->
+<!-- 		                <execution> -->
+<!-- 		                    <id>default-descriptor</id> -->
+<!-- 		                    <phase>process-classes</phase> -->
+<!-- 		                </execution> -->
+<!-- 		            </executions> -->
+<!-- 		        </plugin> -->
         </plugins>
     </build>
 
