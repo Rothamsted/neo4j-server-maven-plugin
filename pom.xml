@@ -29,7 +29,7 @@
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
         <commons-io.version>2.4</commons-io.version>
-        <jarchivelib.version>0.7.0</jarchivelib.version>
+        <jarchivelib.version>1.0.0</jarchivelib.version>
 
         <distro.id>ossrh</distro.id>
         <distro.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distro.url>
