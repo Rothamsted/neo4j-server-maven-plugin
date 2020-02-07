@@ -16,7 +16,7 @@ deploy:
     on:
       repo: harti2006/neo4j-server-maven-plugin
       branch: master
-      jdk: oraclejdk8
+      jdk: openjdk8
   -
     provider: script
     script: .travis/deploy.sh
@@ -24,4 +24,9 @@ deploy:
     on:
       repo: harti2006/neo4j-server-maven-plugin
       tags: true
-      jdk: oraclejdk8
+      jdk: openjdk8
+
+cache:
+  directories:
+    - $HOME/.m2
+
