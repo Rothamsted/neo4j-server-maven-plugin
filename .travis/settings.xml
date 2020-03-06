@@ -3,23 +3,52 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                       http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
+    
     <server>
       <!-- Maven Central Deployment -->
       <id>ossrh</id>
       <username>${env.SONATYPE_USERNAME}</username>
       <password>${env.SONATYPE_PASSWORD}</password>
     </server>
+    
+    <server>
+      <id>knetminer-snapshots</id>
+      <username>${env.RRES_USER}</username>
+      <password>${env.RRES_PWD}</password>
+    </server>
+
+    <server>
+      <id>knetminer-releases</id>
+      <username>${env.RRES_USER}</username>
+      <password>${env.RRES_PWD}</password>
+    </server>
+    
   </servers>
+  
   <profiles>
+  
     <profile>
       <id>ossrh</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
         <gpg.executable>${env.GPG_EXECUTABLE}</gpg.executable>
         <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
       </properties>
     </profile>
+    
+		<profile>
+			<id>rres-deploy</id>
+			
+			<properties>
+				<distro.id>knetminer-releases</distro.id>
+				<distro.url>http://knetminer.org/artifactory/repository/maven-releases</distro.url>
+
+				<distro.snap.id>knetminer-snapshots</distro.snap.id>
+				<distro.snap.url>http://knetminer.org/artifactory/repository/maven-snapshots</distro.snap.url>			
+			</properties>
+		</profile>
+		    
   </profiles>
 </settings>

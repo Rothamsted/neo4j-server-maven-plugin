@@ -5,6 +5,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+		<!-- TODO: common POM -->
+
     <groupId>com.github.harti2006</groupId>
     <artifactId>integration-tests</artifactId>
     <version>1.1-SNAPSHOT</version>
@@ -19,7 +21,7 @@
         <neo4j-server.boltPort>8686</neo4j-server.boltPort>
         <neo4j-server.password>testPass</neo4j-server.password>
 
-        <neo4j-server.version>3.3.1</neo4j-server.version>
+        <neo4j-server.version>3.5.12</neo4j-server.version>
 
         <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
         <neo4j-server-maven-plugin.version>${project.version}</neo4j-server-maven-plugin.version>

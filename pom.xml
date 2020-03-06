@@ -14,8 +14,9 @@
     <packaging>maven-plugin</packaging>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
+				<maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -25,7 +26,7 @@
         <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
         <commons-io.version>2.4</commons-io.version>
@@ -76,16 +77,11 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
 
         <plugins>
+        		<!-- TODO: temporary disabled. To be decided if we want to enforce details like indent
+        		     size 
+        		     
             <plugin>
                 <groupId>org.ec4j.maven</groupId>
                 <artifactId>editorconfig-maven-plugin</artifactId>
@@ -100,6 +96,17 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            
+            <plugin>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.6.0</version>
+            </plugin>
+            
         </plugins>
     </build>
 
@@ -202,7 +209,7 @@
             <url>https://github.com/harti2006</url>
             <name>André Hartmann</name>
             <roles>
-            	<role>Original Developer</role>
+                <role>Original Developer</role>
             </roles>
         </developer>
         <developer>
@@ -210,7 +217,7 @@
             <url>https://github.com/marco-brandizi</url>
             <name>Marco Brandizi</name>
             <roles>
-            	<role>Took over as maintainer in 2020</role>
+                <role>Took over as maintainer in 2020</role>
             </roles>
             <organization>Knetminer Team, Rothamsted Research, UK</organization>
             <organizationUrl>https://knetminer.org</organizationUrl>
