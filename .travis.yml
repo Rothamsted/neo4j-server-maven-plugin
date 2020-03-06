@@ -13,13 +13,13 @@ before_install:
 install:
   - mvn --batch-mode --show-version -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true --settings .travis/settings.xml install
         
-        
 before_deploy:
   - cd integration-tests
   - mvn verify
+  - cd ..
 
 deploy:
-  -
+  - 
     provider: script
     script: .travis/deploy.sh
     skip_cleanup: true
