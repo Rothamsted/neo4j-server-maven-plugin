@@ -186,15 +186,13 @@
     </distributionManagement>
 
     <scm>
-        <url>https://github.com/harti2006/neo4j-server-maven-plugin</url>
-        <connection>scm:git:https://github.com/harti2006/neo4j-server-maven-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:harti2006/neo4j-server-maven-plugin.git
-        </developerConnection>
+        <url>https://github.com/Rothamsted/neo4j-server-maven-plugin</url>
+        <connection>scm:git:https://github.com/Rothamsted/neo4j-server-maven-plugin</connection>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
-        <url>https://github.com/harti2006/neo4j-server-maven-plugin/issues</url>
+        <url>https://github.com/Rothamsted/neo4j-server-maven-plugin/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
@@ -203,6 +201,20 @@
             <id>harti2006</id>
             <url>https://github.com/harti2006</url>
             <name>André Hartmann</name>
+            <roles>
+            	<role>Original Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>marco-brandizi</id>
+            <url>https://github.com/marco-brandizi</url>
+            <name>Marco Brandizi</name>
+            <roles>
+            	<role>Took over as maintainer in 2020</role>
+            </roles>
+            <organization>Knetminer Team, Rothamsted Research, UK</organization>
+            <organizationUrl>https://knetminer.org</organizationUrl>
+            <timezone>0</timezone>
         </developer>
     </developers>
 
