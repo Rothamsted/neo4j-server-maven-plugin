@@ -6,14 +6,12 @@ language: java
 jdk:
   - openjdk8
 
-before_install:
+
+script:
   - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
   - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
 
-install:
-  - mvn --batch-mode --show-version -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true --settings .travis/settings.xml install
-        
-before_deploy:
+  - mvn --batch-mode --show-version -Dgpg.skip -Dmaven.javadoc.skip=true --settings .travis/settings.xml install
   - cd integration-tests
   - mvn verify
   - cd ..
