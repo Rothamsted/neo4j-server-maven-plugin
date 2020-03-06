@@ -9,4 +9,4 @@ fi
 # TODO: restore the M2 Central version later, when we have new credentials
 # mvn clean deploy --settings .travis/settings.xml -Prelease -B -U
 
-mvn clean deploy --update-snapshots --batch-mode -Prres-deploy --settings .travis/settings.xml
+mvn --update-snapshots --batch-mode -Prres-deploy --settings .travis/settings.xml deploy
