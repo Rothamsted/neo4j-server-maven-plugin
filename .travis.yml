@@ -11,8 +11,9 @@ before_install:
   - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
 
 install:
-  - mvn --settings .travis/settings.xml install -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true \
-        --batch-mode --show-version
+  - mvn --batch-mode --show-version -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true \
+    --settings .travis/settings.xml install
+        
         
 before_deploy:
   - cd integration-tests
