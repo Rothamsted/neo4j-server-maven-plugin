@@ -13,14 +13,14 @@
     
     <server>
       <id>knetminer-snapshots</id>
-      <username>${env.RRES_USER}</username>
-      <password>${env.RRES_PWD}</password>
+      <username>${env.RRES_ARTIFACTORY_USER}</username>
+      <password>${env.RRES_ARTIFACTORY_PWD}</password>
     </server>
 
     <server>
       <id>knetminer-releases</id>
-      <username>${env.RRES_USER}</username>
-      <password>${env.RRES_PWD}</password>
+      <username>${env.RRES_ARTIFACTORY_USER}</username>
+      <password>${env.RRES_ARTIFACTORY_PWD}</password>
     </server>
     
   </servers>
