@@ -1,3 +1,24 @@
+echo -e "\n--- Preparing the Environment"
+
+if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
+if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
+
+
+echo -e "\n--- Building"
+
+mvn --batch-mode --show-version -Dgpg.skip -Dmaven.javadoc.skip=true \
+		--settings .travis/settings.xml install
+
+
+echo -e "\n--- Integration Tests"
+
+cd integration-tests
+mvn verify
+cd ..
+
+
+echo -e "\n--- Deployoment"
+
 if [ ! -z "$TRAVIS_TAG" ]
 then
     echo "on a tag -> set pom.xml <version> to $TRAVIS_TAG"
