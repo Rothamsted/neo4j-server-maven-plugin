@@ -117,6 +117,19 @@
     </build>
 
     <profiles>
+    
+				<profile>
+					<id>rres-deploy</id>
+					
+					<properties>
+						<distro.id>${knetminer.mvnrepo.rel.id}</distro.id>
+						<distro.url>${knetminer.mvnrepo.rel.url}</distro.url>
+		
+						<distro.snap.id>${knetminer.mvnrepo.snapshots.id}</distro.snap.id>
+						<distro.snap.url>${knetminer.mvnrepo.snapshots.url}</distro.snap.url>
+					</properties>
+				</profile>
+    
         <profile>
             <id>release</id>
             <activation>
