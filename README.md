@@ -9,6 +9,7 @@ and runs it, as a user would do it, using `./neo4j start`
 
 Furthermore it provides an idiomatic way to configure the server using the plugin `<configuration>` section.
 
+**WARNING**: Since version 2.0, this works with Neo4j version >= 4.x and Java 11.
 
 ## Building the project
 
