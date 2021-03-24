@@ -16,22 +16,24 @@
 package com.github.harti2006;
 
 import org.junit.Test;
-import org.neo4j.driver.v1.AuthTokens;
-import org.neo4j.driver.v1.Driver;
-import org.neo4j.driver.v1.GraphDatabase;
+import org.neo4j.driver.AuthTokens;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
 
 
 public class Neo4jServerIT {
-
+			
     @Test
     public void testNeo4jServerIsRunning() throws Exception
     {
     		// We test the bolt server here, the web interface is not crucial for Maven builds.
-    		String boltPort = System.getProperty ( "neo4j-server.boltPort" );
-    		String pwd = System.getProperty ( "neo4j-server.password" );
+    		String boltPort = System.getProperty ( "neo4j.server.boltPort" );
+    		String pwd = System.getProperty ( "neo4j.server.password" );
     		try (
   				Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
     		) {
+    			driver.session ().run ( ":sysinfo" );
+    			System.out.println ( "Connected" );
     		}
     }
 }

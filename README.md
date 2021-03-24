@@ -32,10 +32,10 @@ The start/stop goals bind by default to lifecycle phases pre- and post-integrati
     <plugin>
         <groupId>com.github.harti2006</groupId>
         <artifactId>neo4j-server-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>SEE-THE-POM-OR-RELEASE</version>
         <configuration>
-            <port>${neo4j-server.port}</port>
-            <version>${neo4j-server.version}</version>
+            <port>${neo4j.server.port}</port>
+            <version>${neo4j.server.version}</version>
         </configuration>
         <executions>
             <execution>

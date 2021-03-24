@@ -33,6 +33,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -40,17 +41,17 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.codehaus.plexus.util.PropertyUtils;
-import org.neo4j.driver.v1.AuthTokens;
-import org.neo4j.driver.v1.Driver;
-import org.neo4j.driver.v1.GraphDatabase;
-import org.neo4j.driver.v1.Session;
-import org.neo4j.driver.v1.exceptions.ServiceUnavailableException;
+import org.neo4j.driver.AuthTokens;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.exceptions.ServiceUnavailableException;
 
 @Mojo(name = "start", defaultPhase = PRE_INTEGRATION_TEST)
 public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
 
     private static final int INITIAL_WAIT_MILLIS = 1500;
-    private static final int WAIT_MILLIS = 1000;
+    private static final int WAIT_MILLIS = 5000;
 
     public void execute() throws MojoExecutionException {
         installNeo4jServer();
@@ -62,8 +63,8 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
         final Path serverLocation = getServerLocation();
         if (!exists(serverLocation)) {
             final Path downloadDestination = Paths.get(System.getProperty("java.io.tmpdir"),
-                                                       "neo4j-server-maven-plugin", "downloads", "server",
-                                                       version, "neo4j-server" + urlSuffix);
+                                                       "neo4j.server-maven-plugin", "downloads", "server",
+                                                       version, "neo4j.server" + urlSuffix);
 
             if (!exists(downloadDestination)) {
                 try {
@@ -108,81 +109,95 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport {
     }
 
     private void startNeo4jServer() throws MojoExecutionException {
-        final Log log = getLog();
-        try {
-            final Path serverLocation = getServerLocation();
+        
+    	final Log log = getLog();
 
-            // Delete existing DB if required
-            if (deleteDb) {
-                Path dataDir = serverLocation.resolve("data");
-                log.info("Deleting Database directory: '" + dataDir.toAbsolutePath().toString() + "'");
-                FileUtils.deleteQuietly(dataDir.toFile());
-            }
+      final Path serverLocation = getServerLocation();
 
-            final String[] neo4jCommand = new String[]{
-                serverLocation.resolve(Paths.get("bin", "neo4j")).toString(), "start"};
-            final File workingDir = serverLocation.toFile();
-
-            final Process neo4jStartProcess = Runtime.getRuntime().exec(neo4jCommand, null, workingDir);
-            try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(neo4jStartProcess.getInputStream()))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    log.info("NEO4J SERVER > " + line);
-                }
-            }
-
-            if (neo4jStartProcess.waitFor(5, SECONDS) && neo4jStartProcess.exitValue() == 0) {
-                log.info("Started Neo4j server");
-            } else {
-                throw new MojoExecutionException("Neo4j server did not start up properly");
-            }
-
-            // Now we need to wait it replies
-            checkServerReady();
-
-            // Went up! If it's a new DB, let's change the password.
-            setNewPassword();
-        } catch (IOException | InterruptedException e) {
-            throw new MojoExecutionException("Could not start neo4j server", e);
-        }
+      // Delete existing DB if required
+      if (deleteDb) {
+          Path dataDir = serverLocation.resolve("data");
+          log.info("Deleting Database directory: '" + dataDir.toAbsolutePath().toString() + "'");
+          FileUtils.deleteQuietly(dataDir.toFile());
+          this.runNeo4jCommand ( "neo4j-admin", "set-initial-password", password );
+      }
+      this.runNeo4jCommand ( "neo4j", "start" );
+      checkServerReady ();
     }
 
     /**
      * @see Neo4jServerMojoSupport#serverReadyAttempts
      */
-    private void checkServerReady() throws MojoExecutionException, InterruptedException {
-        // If the deleteDb parameter is true, at this point we have created a new server, which have the
-        // default
-        // password, and we're about to change this.
-        //
-        String pwd = deleteDb ? "neo4j" : password;
-        Thread.sleep(INITIAL_WAIT_MILLIS); // It takes some time anyway
+    private void checkServerReady() throws MojoExecutionException 
+    {
+        try
+				{
+					Thread.sleep(INITIAL_WAIT_MILLIS); // It takes some time anyway
 
-        for (int attempts = 1; attempts <= serverReadyAttempts; attempts++) {
-            getLog().debug("Trying to connect Neo4j, attempt " + attempts);
+					for (int attempts = 1; attempts <= serverReadyAttempts; attempts++) {
+					    getLog().debug("Trying to connect Neo4j, attempt " + attempts);
 
-            try (Driver ignored = GraphDatabase.driver("bolt://127.0.0.1:" + boltPort,
-                                                       AuthTokens.basic("neo4j", pwd))) {
-                return;
-            } catch (ServiceUnavailableException ignored) {
-                Thread.sleep(WAIT_MILLIS);
-            }
-        }
-        throw new MojoExecutionException(
-            format("Server doesn't result started after waiting %sms for its boot",
-                   INITIAL_WAIT_MILLIS + serverReadyAttempts * WAIT_MILLIS));
+					    try (Driver driver = GraphDatabase.driver("bolt://127.0.0.1:" + boltPort,
+					                                               AuthTokens.basic("neo4j", password))) 
+					    {
+					    	driver.verifyConnectivity ();
+					    	getLog ().info ( "The server is running" );
+					    	return;
+					    } 
+					    catch (ServiceUnavailableException ignored) {
+					        Thread.sleep(WAIT_MILLIS);
+					    }
+					}
+					throw new MojoExecutionException(
+					    format("Server doesn't result started after waiting %sms for its boot",
+					           INITIAL_WAIT_MILLIS + serverReadyAttempts * WAIT_MILLIS));
+				}
+				catch ( InterruptedException ex )
+				{
+					throw new MojoExecutionException ( 
+						"Error while connecting to the Neo4j server: " + ex.getMessage (), 
+						ex 
+					);
+				}
     }
 
-    private void setNewPassword() {
-        if (!deleteDb) {
-            return;
-        }
+    
+    private void runNeo4jCommand ( String command, String... params ) throws MojoExecutionException
+    {
+    	try
+			{
+				Log log = getLog ();
+				
+				Path serverLocation = getServerLocation();
+				String cmdStr = serverLocation.resolve(Paths.get("bin", command)).toString();
+				if ( params == null ) params = new String [ 0 ];
+				String [] cmdFull = new String [ params.length + 1 ];
+				cmdFull [ 0 ] = cmdStr;
+				System.arraycopy ( params, 0, cmdFull, 1, params.length );
+				final File workingDir = serverLocation.toFile();
 
-        try (Driver driver = GraphDatabase.driver("bolt://127.0.0.1:" + boltPort,
-                                                  AuthTokens.basic("neo4j", "neo4j"));
-             Session session = driver.session()) {
-            session.run("CALL dbms.changePassword( '" + password + "' )");
-        }
+				final Process neo4jStartProcess = Runtime.getRuntime().exec( cmdFull, null, workingDir );
+				try (BufferedReader br = new BufferedReader(
+				    new InputStreamReader(neo4jStartProcess.getInputStream()))) {
+				    String line;
+				    while ((line = br.readLine()) != null) {
+				        log.info("NEO4J SERVER > " + line);
+				    }
+				}
+
+				if (neo4jStartProcess.waitFor(5, SECONDS) && neo4jStartProcess.exitValue() == 0) {
+				    log.info ( "Command '" + command + "' finished" );
+				} 
+				else {
+				    throw new MojoExecutionException("Command '" + command + "' didn't work" );
+				}
+			}
+			catch ( IOException|InterruptedException ex )
+			{
+				throw new MojoExecutionException ( 
+					"Error while running the Neo4j command '" + command + "':" + ex.getMessage (), 
+					ex
+				);
+			}
     }
 }

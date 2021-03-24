@@ -27,27 +27,27 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
 
     protected static final String BASE_URL = "http://dist.neo4j.org/" + ARTIFACT_NAME;
 
-    @Parameter(required = true, property = "neo4j-server.downloadPrefix", defaultValue = "-unix.tar.gz")
+    @Parameter(required = true, property = "neo4j.server.downloadPrefix", defaultValue = "-unix.tar.gz")
     protected String urlSuffix;
 
-    @Parameter(required = true, property = "neo4j-server.version")
+    @Parameter(required = true, property = "neo4j.server.version")
     protected String version;
 
-    @Parameter(required = true, property = "neo4j-server.directory",
-        defaultValue = "${project.build.directory}/neo4j-server")
+    @Parameter(required = true, property = "neo4j.server.directory",
+        defaultValue = "${project.build.directory}/neo4j.server")
     protected String directory;
 
     /**
      * The web interface port, default is the same as Neo4J default.
      */
-    @Parameter(required = true, property = "neo4j-server.port", defaultValue = "7474")
+    @Parameter(required = true, property = "neo4j.server.port", defaultValue = "7474")
     protected String port;
 
     /**
      * The BOLT protocol port. This is what the programmatic clients use to access Neo4J. Default is
      * the same as Neo4J default.
      */
-    @Parameter(required = true, property = "neo4j-server.boltPort", defaultValue = "7687")
+    @Parameter(required = true, property = "neo4j.server.boltPort", defaultValue = "7687")
     protected String boltPort;
 
     /**
@@ -55,7 +55,7 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
      * set as expired and it can be used only to setup a new password. So the start procedure does that
      * with this parameter.
      */
-    @Parameter(required = true, property = "neo4j-server.password", defaultValue = "test")
+    @Parameter(required = true, property = "neo4j.server.password", defaultValue = "test")
     protected String password;
 
     /**
@@ -63,7 +63,7 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
      * Typically, you want this to be false when you manually restart the test server, by invoking
      * this plug-in via command line, and you want it to be true when you configure a POM.
      */
-    @Parameter(required = true, property = "neo4j-server.deleteDb", defaultValue = "false")
+    @Parameter(required = true, property = "neo4j.server.deleteDb", defaultValue = "false")
     protected boolean deleteDb;
 
     /**
@@ -74,7 +74,7 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
      * configured and adapted to your particular situation, e.g., in some busy servers Neo4j can take over
      * 1 min to start.
      */
-    @Parameter(required = true, property = "neo4j-server.serverReadyAttempts", defaultValue = "10")
+    @Parameter(required = true, property = "neo4j.server.serverReadyAttempts", defaultValue = "10")
     protected int serverReadyAttempts = 10;
 
     protected Path getServerLocation() {
