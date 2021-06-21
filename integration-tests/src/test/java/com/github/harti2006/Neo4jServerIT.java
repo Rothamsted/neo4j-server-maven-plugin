@@ -19,10 +19,16 @@ import org.junit.Test;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class Neo4jServerIT {
-			
+		
+		private Logger log = LoggerFactory.getLogger ( this.getClass () );
+	
+	
     @Test
     public void testNeo4jServerIsRunning() throws Exception
     {
@@ -31,9 +37,11 @@ public class Neo4jServerIT {
     		String pwd = System.getProperty ( "neo4j.server.password" );
     		try (
   				Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
-    		) {
-    			driver.session ().run ( ":sysinfo" );
-    			System.out.println ( "Connected" );
+    			Session session = driver.session ();
+    		)
+    		{
+    			session.run ( "MATCH (n) RETURN COUNT(n)" );
+    			log.info ( "Neo4j Connected to {}", driver.toString () );
     		}
     }
 }

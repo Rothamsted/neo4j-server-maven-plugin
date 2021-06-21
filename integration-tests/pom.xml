@@ -32,6 +32,12 @@
             <artifactId>neo4j-java-driver</artifactId>
             <scope>test</scope>
         </dependency>
+	    	<dependency>
+	    		<!-- TODO: this is only needed by surefire and due to a bug, seee knetminer-common -->
+				  <groupId>uk.ac.ebi</groupId>
+				  <artifactId>jutils</artifactId>
+				  <scope>test</scope>
+	    	</dependency>
     </dependencies>
 
     <build>
