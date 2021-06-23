@@ -20,6 +20,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- To test issue #8 -->
+        <neo4j.server.deleteDb>false</neo4j.server.deleteDb>
     </properties>
 
     <dependencies>
@@ -38,6 +40,12 @@
 				  <artifactId>jutils</artifactId>
 				  <scope>test</scope>
 	    	</dependency>
+				<dependency>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>logback-classic</artifactId>
+					<version>1.2.3</version>
+			    <scope>test</scope>
+				</dependency>
     </dependencies>
 
     <build>
