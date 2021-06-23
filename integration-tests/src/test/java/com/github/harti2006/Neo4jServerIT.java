@@ -24,24 +24,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class Neo4jServerIT {
-		
-		private Logger log = LoggerFactory.getLogger ( this.getClass () );
+public class Neo4jServerIT
+{		
+	private Logger log = LoggerFactory.getLogger ( this.getClass () );
 	
-	
-    @Test
-    public void testNeo4jServerIsRunning() throws Exception
-    {
-    		// We test the bolt server here, the web interface is not crucial for Maven builds.
-    		String boltPort = System.getProperty ( "neo4j.server.boltPort" );
-    		String pwd = System.getProperty ( "neo4j.server.password" );
-    		try (
-  				Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
-    			Session session = driver.session ();
-    		)
-    		{
-    			session.run ( "MATCH (n) RETURN COUNT(n)" );
-    			log.info ( "Neo4j Connected to {}", driver.toString () );
-    		}
-    }
+	@Test
+	public void testNeo4jServerIsRunning() throws Exception
+	{
+		// We test the bolt server here, the web interface is not crucial for Maven builds.
+		String boltPort = System.getProperty ( "neo4j.server.boltPort" );
+		String pwd = System.getProperty ( "neo4j.server.password" );
+		try (
+			Driver driver = GraphDatabase.driver( "bolt://127.0.0.1:" + boltPort, AuthTokens.basic ( "neo4j", pwd ) );
+			Session session = driver.session ();
+		)
+		{
+			session.run ( "MATCH (n) RETURN COUNT(n)" );
+			log.info ( "Neo4j Connected to {}", driver.toString () );
+		}
+	}
 }
