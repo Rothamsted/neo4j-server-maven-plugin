@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+		<parent>
+		  <groupId>com.github.harti2006</groupId>
+		  <artifactId>neo4j-server-maven-plugin-common</artifactId>
+	    <version>2.0-SNAPSHOT</version>
+		</parent>  
+
+    <artifactId>neo4j-server-maven-plugin</artifactId>
+
+    <name>Neo4j Server Maven Plugin</name>
+    <description>Start and stop any version of Neo4j community server.</description>
+
+    <url>https://github.com/Rothamsted/neo4j-server-maven-plugin</url>
+
+    <packaging>maven-plugin</packaging>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>${maven-plugin-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>${maven-plugin-annotations.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.rauschig</groupId>
+            <artifactId>jarchivelib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <plugins>
+        
+        		<!-- TODO: temporary disabled. To be decided if we want to enforce details like indent
+        		     size 
+        		     
+            <plugin>
+                <groupId>org.ec4j.maven</groupId>
+                <artifactId>editorconfig-maven-plugin</artifactId>
+                <version>0.0.5</version>
+                <executions>
+                    <execution>
+                        <id>check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+            <plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            
+            <plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+            </plugin>
+                        
+        </plugins>
+        
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
+						build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+												<pluginExecutionFilter>
+									        <groupId>org.apache.maven.plugins</groupId>
+									        <artifactId>maven-plugin-plugin</artifactId>
+													<versionRange>[1.0,)</versionRange>
+													<goals>
+														<goal>descriptor</goal>
+														<goal>addPluginArtifactMetadata</goal>
+													</goals>
+												</pluginExecutionFilter>
+												<action>
+													<ignore />
+												</action>
+										</pluginExecution>												
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>			
+				</pluginManagement>        
+    </build>
+    
+
+</project>
