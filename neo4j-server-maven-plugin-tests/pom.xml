@@ -47,6 +47,7 @@
 			      <plugin>
 					    <groupId>com.github.harti2006</groupId>
 						  <artifactId>neo4j-server-maven-plugin</artifactId>
+						  <version>${project.version}</version>
 						</plugin>
 				        
             <plugin>
