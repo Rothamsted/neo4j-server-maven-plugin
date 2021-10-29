@@ -1,9 +1,9 @@
 set -e 
 
-echo -e "\n\n\tBuild\n"
+echo -e "\n\n\Running Maven Goal: $MAVEN_GOAL\n"
+mvn --update-snapshots --batch-mode --show-version -Dgpg.skip -Dmaven.javadoc.skip=true \
+    -Prres-deploy --settings ci-build/maven-settings.xml $MAVEN_ARGS $MAVEN_GOAL
 
-mvn --batch-mode --show-version -Dgpg.skip -Dmaven.javadoc.skip=true \
-		--settings ci-build/maven-settings.xml install
 
 return
 
