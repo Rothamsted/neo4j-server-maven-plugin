@@ -30,6 +30,9 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo {
     @Parameter(required = true, property = "neo4j.server.downloadPrefix", defaultValue = "-unix.tar.gz")
     protected String urlSuffix;
 
+    /**
+     * Defined in the knetminer-common POM.
+     */
     @Parameter(required = true, property = "neo4j.server.version")
     protected String version;
 
