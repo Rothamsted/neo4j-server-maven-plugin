@@ -74,3 +74,34 @@ The release process is copied frome this [blog post](https://dracoblue.net/dev/u
 
 * Snapshot releases to Maven Central are performed automatically by Travis CI on every push to `master`.
 * Final releases to Maven Central are performed automatically by Travis CI after creating and pushing a git tag.
+
+
+## Troubleshooting
+
+### Windows
+While we don't officially support Windows, we have done some tests with it and debugged the code to see 
+the plug-in running at least once.  
+
+Based on that, we understand you might need [(re)install the Neo4j service][10], before the Neo4j plug-in is able to start/stop the Neo4j server. The best way to do so should be:
+
+1. Run a Maven build against a project that starts the plug-in (`mvn verify` or `mvn install`).
+   Likely, the first time you'll get an error, but you'll also get the working Neo4j server under
+   `<your-project>\target\neo4j.server\neo4j-community-4.4.1`.
+1. `cd` under that directory and issue: `bin\neo4j install-service`
+1. Then, try to start the Neo4j manually (`bin\neo4j start`). If you can reach the server via the browser    
+   (eg, `http://localhost/7474`), now you should be able to build the project and get the Neo4j plug-in 
+   working.
+* If `install-service` doesn't work, try `update-service`, or the more brutal: `uninstall-service` + 
+  `install-service`.
+* Notice that Windows keeps popping up dialogs to confirm of all the service-related operations above, even
+  after service installation and regular use of the plug-in. We have no idea if this can be disabled for 
+  the Neo4j service only (it can for all the apps, but highly non recommended).
+  
+  
+   
+   
+ 
+
+[10]: https://github.com/Rothamsted/neo4j-server-maven-plugin
+
+
