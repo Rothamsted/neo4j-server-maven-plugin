@@ -18,19 +18,14 @@ import static java.nio.file.Files.exists;
 import static java.nio.file.Files.newBufferedWriter;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.nio.file.StandardOpenOption.WRITE;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.io.FileUtils.copyURLToFile;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.PRE_INTEGRATION_TEST;
 import static org.rauschig.jarchivelib.ArchiverFactory.createArchiver;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -41,8 +36,8 @@ import org.codehaus.plexus.util.PropertyUtils;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
-import org.neo4j.driver.Session;
 import org.neo4j.driver.exceptions.ServiceUnavailableException;
+import org.rauschig.jarchivelib.Archiver;
 
 @Mojo ( name = "start", defaultPhase = PRE_INTEGRATION_TEST )
 public class StartNeo4jServerMojo extends Neo4jServerMojoSupport
@@ -70,6 +65,17 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport
 		if ( exists ( serverLocation ) ) return false;
 		
 		final Log log = getLog ();
+				
+		if ( "@auto".equals (  urlSuffix ) )
+		{
+			String os = System.getProperty ( "os.name" );
+			
+			urlSuffix = os != null && os.toLowerCase ().contains ( "windows" )
+				? "windows.zip"
+				: "unix.tar.gz"; // Let's hope for the best instead
+			
+			urlSuffix = "-" + urlSuffix;
+		}
 		
 		final Path downloadDestination = Paths.get ( 
 			System.getProperty ( "java.io.tmpdir" ), "neo4j.server-maven-plugin",
@@ -96,7 +102,14 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport
 		try
 		{
 			getLog ().info ( format ( "Extracting %s", downloadDestination ) );
-			createArchiver ( "tar", "gz" ).extract ( downloadDestination.toFile (), serverLocation.getParent ().toFile () );
+			
+			// It comes in this two different flavours
+			Archiver archiver = 
+			urlSuffix.toLowerCase ().contains ( "unix" )
+			  ? createArchiver ( "tar", "gz" )
+			  : createArchiver ( "zip" );
+			
+			archiver.extract ( downloadDestination.toFile (), serverLocation.getParent ().toFile () );
 		}
 		catch ( IOException e ) {
 			throw new MojoExecutionException ( "Error extracting server archive", e );
@@ -193,36 +206,4 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport
 		}
 	}
 
-	private void runNeo4jCommand ( String command, String... params ) throws MojoExecutionException
-	{
-		try
-		{
-			Log log = getLog ();
-
-			Path serverLocation = getServerLocation ();
-			String cmdStr = serverLocation.resolve ( Paths.get ( "bin", command ) ).toString ();
-			if ( params == null ) params = new String[ 0 ];
-			String[] cmdFull = new String[ params.length + 1 ];
-			cmdFull[ 0 ] = cmdStr;
-			System.arraycopy ( params, 0, cmdFull, 1, params.length );
-			final File workingDir = serverLocation.toFile ();
-
-			final Process neo4jStartProcess = Runtime.getRuntime ().exec ( cmdFull, null, workingDir );
-			try ( BufferedReader br = new BufferedReader ( new InputStreamReader ( neo4jStartProcess.getInputStream () ) ) )
-			{
-				for ( String line; ( line = br.readLine () ) != null; )
-					log.info ( "NEO4J SERVER > " + line );
-			}
-
-			if ( neo4jStartProcess.waitFor ( 5, SECONDS ) && neo4jStartProcess.exitValue () == 0 )
-				log.info ( "Command '" + command + "' finished" );
-			else
-				throw new MojoExecutionException ( "Command '" + command + "' didn't work" );
-		}
-		catch ( IOException | InterruptedException ex ) {
-			throw new MojoExecutionException ( 
-				"Error while running the Neo4j command '" + command + "':" + ex.getMessage (), ex
-			);
-		}
-	}
 }

@@ -1,7 +1,7 @@
 # Revision History
 
 ## 2.0.1-SNAPSHOT
-* Current snapshot
+* Support for Windows added, including automatic selection of urlSuffix.
 
 ## 2.0
 * First release after the project lead was transferred to RRes.
