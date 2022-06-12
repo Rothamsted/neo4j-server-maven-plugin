@@ -29,7 +29,7 @@
             <scope>test</scope>
         </dependency>
 	    	<dependency>
-	    		<!-- TODO: this is only needed by surefire and due to a bug, seee knetminer-common -->
+	    		<!-- TODO: this is only needed by surefire and due to a bug, see knetminer-common -->
 				  <groupId>uk.ac.ebi</groupId>
 				  <artifactId>jutils</artifactId>
 				  <scope>test</scope>
