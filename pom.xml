@@ -10,7 +10,7 @@
 
     <groupId>com.github.harti2006</groupId>
     <artifactId>neo4j-server-maven-plugin-common</artifactId>
-    <version>3.0</version>
+    <version>3.0.1-SNAPSHOT</version>
 
     <name>Neo4j Server Maven Plugin - Top Common POM </name>
     <description>Start and stop any version of Neo4j community server. This is a common POM for the project.</description>
