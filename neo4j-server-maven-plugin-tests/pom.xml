@@ -16,6 +16,9 @@
     <properties>
         <!-- To test issue #8 -->
         <neo4j.server.deleteDb>false</neo4j.server.deleteDb>
+        <!-- DEBUG
+        <neo4j.server.password>testTest</neo4j.server.password>
+        -->
     </properties>
 
     <dependencies>

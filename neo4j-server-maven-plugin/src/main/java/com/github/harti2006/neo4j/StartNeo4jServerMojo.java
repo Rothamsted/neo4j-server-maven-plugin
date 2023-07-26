@@ -163,7 +163,7 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport
 		
 		if ( isNewDB || deleteDb ) {
 			log.info ( "Changing the server initial password" );
-			this.runNeo4jCommand ( "neo4j-admin", "set-initial-password", password );
+			this.runNeo4jCommand ( "neo4j-admin", "dbms", "set-initial-password", password );
 		}
 		
 		log.info ( "Server start" );

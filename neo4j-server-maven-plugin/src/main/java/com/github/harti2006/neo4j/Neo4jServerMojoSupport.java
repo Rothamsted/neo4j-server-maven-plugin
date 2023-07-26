@@ -122,16 +122,22 @@ public abstract class Neo4jServerMojoSupport extends AbstractMojo
 			
 			final File workingDir = serverLocation.toFile ();
 
-			final Process neo4jStartProcess = Runtime.getRuntime ().exec ( 
-				cmdFull.toArray ( new String [ cmdFull.size () ] ), null, workingDir 
-			);
-			try ( BufferedReader br = new BufferedReader ( new InputStreamReader ( neo4jStartProcess.getInputStream () ) ) )
+			// I can't use get Runtime.getRuntime ().exec(), because this hasn't any option to 
+			// redirect the std error. This is exactly the same thing that exec() does
+			// (apart from the redirect).
+			//
+			final Process cmdProcess = new ProcessBuilder ( cmdFull.toArray ( new String [ cmdFull.size () ] ) )
+        .directory ( workingDir )
+        .redirectErrorStream ( true )
+        .start ();
+			
+			try ( BufferedReader br = new BufferedReader ( new InputStreamReader ( cmdProcess.getInputStream () ) ) )
 			{
 				for ( String line; ( line = br.readLine () ) != null; )
 					log.info ( "NEO4J SERVER > " + line );
 			}
 
-			if ( neo4jStartProcess.waitFor ( 5, SECONDS ) && neo4jStartProcess.exitValue () == 0 )
+			if ( cmdProcess.waitFor ( 5, SECONDS ) && cmdProcess.exitValue () == 0 )
 				log.info ( "Command '" + command + "' finished" );
 			else
 				throw new MojoExecutionException ( "Command '" + command + "' didn't work" );
