@@ -1,7 +1,10 @@
 # Revision History
 
-## 3.0.1-SNAPSHOT
-* Current snapshot version.
+## 4.0.1-SNAPSHOT
+* Current snapshot
+
+## 4.0
+* Migrated to Java 17. **WARNING: no backward compatibility guaranteed**.
 
 ## 3.0
 * **Migrated to Java 11**. From now on, earlier versions aren't supported.

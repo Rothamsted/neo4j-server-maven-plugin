@@ -5,12 +5,12 @@
 		<parent>
 		  <groupId>uk.ac.rothamsted.knetminer</groupId>
 		  <artifactId>knetminer-common</artifactId>
-  		<version>3.0.1</version>
+  		<version>4.0</version>
 		</parent>  
 
     <groupId>com.github.harti2006</groupId>
     <artifactId>neo4j-server-maven-plugin-common</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>4.0-SNAPSHOT</version>
 
     <name>Neo4j Server Maven Plugin - Top Common POM </name>
     <description>Start and stop any version of Neo4j community server. This is a common POM for the project.</description>
@@ -23,8 +23,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven-plugin-api.version>3.2.5</maven-plugin-api.version>
-        <maven-plugin-annotations.version>3.7.1</maven-plugin-annotations.version>
+        <maven-plugin-api.version>3.9.3</maven-plugin-api.version>
+        <maven-plugin-annotations.version>3.9.0</maven-plugin-annotations.version>
         
         <!-- TODO: we're currently not releasing on the public repo and not using these -->
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
@@ -57,7 +57,7 @@
             <plugin>
                 <groupId>org.ec4j.maven</groupId>
                 <artifactId>editorconfig-maven-plugin</artifactId>
-                <version>0.0.5</version>
+                <version>0.1.3</version>
                 <executions>
                     <execution>
                         <id>check</id>
@@ -75,7 +75,7 @@
             
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.9.0</version>
             </plugin>
             
         </plugins>
