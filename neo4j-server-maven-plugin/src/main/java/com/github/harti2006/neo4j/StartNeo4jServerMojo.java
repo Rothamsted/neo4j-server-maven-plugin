@@ -132,9 +132,9 @@ public class StartNeo4jServerMojo extends Neo4jServerMojoSupport
 		{
 			Properties serverProperties = PropertyUtils.loadProperties ( serverPropertiesPath.toFile () );
 
-			serverProperties.setProperty ( "dbms.connector.http.listen_address", "localhost:" + port );
-			serverProperties.setProperty ( "dbms.connector.bolt.listen_address", "localhost:" + boltPort );
-			serverProperties.setProperty ( "dbms.connector.https.enabled", "false" );
+			serverProperties.setProperty ( "server.http.listen_address", "localhost:" + port );
+			serverProperties.setProperty ( "server.bolt.listen_address", "localhost:" + boltPort );
+			serverProperties.setProperty ( "server.https.enabled", "false" );
 
 			serverProperties.store ( 
 				newBufferedWriter ( serverPropertiesPath, TRUNCATE_EXISTING, WRITE ),
