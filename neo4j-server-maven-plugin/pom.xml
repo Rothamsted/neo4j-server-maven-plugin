@@ -5,7 +5,7 @@
 		<parent>
 		  <groupId>com.github.harti2006</groupId>
 		  <artifactId>neo4j-server-maven-plugin-common</artifactId>
-	    <version>4.0.1-SNAPSHOT</version>
+	    <version>4.0</version>
 		</parent>  
 
     <artifactId>neo4j-server-maven-plugin</artifactId>
