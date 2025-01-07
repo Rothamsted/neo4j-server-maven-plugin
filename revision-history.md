@@ -1,7 +1,7 @@
 # Revision History
 
 ## 4.0.1-SNAPSHOT
-* Current snapshot
+* Migration to the new AWS Maven repository.
 
 ## 4.0
 * Migrated to Java 17. **WARNING: no backward compatibility guaranteed**.
